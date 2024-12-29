@@ -11,20 +11,12 @@ export default function Home() {
   const [showFeedBackPopup, setShowFeedBackPopup] = useState(false);
   const [showFeedBackItem, setShowFeedBackItem] = useState(null);
   const [feedbacks, setFeedbacks] = useState([]);
+  const [votesLoading, setVotesLoading] = useState(false);
   const [votes, setVotes] = useState([]);
   const { data: session } = useSession();
-  const [votesLoading, setVotesLoading] = useState(false);
 
   useEffect(() => {
-    axios
-      .get("/api/feedback")
-      .then((res) => {
-        setFeedbacks(res.data);
-      })
-      .catch((err) => {
-        console.error("Error fetching feedbacks:", err);
-        alert("Failed to fetch feedbacks. Please try again later.");
-      });
+    fetchFeedback();
   }, []);
 
   useEffect(() => {
@@ -35,12 +27,25 @@ export default function Home() {
     if (session?.user?.email) {
       const feedbackId = localStorage.getItem("vote_after_login");
       if (feedbackId) {
-        axios.post("/api/vote", { feedbackId });
-        localStorage.removeItem("vote_after_login");
+        axios.post("/api/vote", { feedbackId }).then(() => {
+          localStorage.removeItem("vote_after_login");
+          fetchVotes();
+        });
       }
     }
   }, [session?.user?.email]);
 
+  async function fetchFeedback() {
+    axios
+      .get("/api/feedback")
+      .then((res) => {
+        setFeedbacks(res.data);
+      })
+      .catch((err) => {
+        console.error("Error fetching feedbacks:", err);
+        alert("Failed to fetch feedbacks. Please try again later.");
+      });
+  }
   async function fetchVotes() {
     setVotesLoading(true);
     const ids = feedbacks.map((f) => f._id);
@@ -82,18 +87,25 @@ export default function Home() {
             votes={votes.filter(
               (v) => v.feedbackId.toString() === feedback._id.toString()
             )}
-            onOpen={() => openFeedBackItem(feedback)}
             parentLoadingVotes={votesLoading}
+            onOpen={() => openFeedBackItem(feedback)}
           />
         ))}
       </div>
       {showFeedBackPopup && (
-        <FeedbackFormPopup setShow={setShowFeedBackPopup} />
+        <FeedbackFormPopup
+          onCreate={fetchFeedback}
+          setShow={setShowFeedBackPopup}
+        />
       )}
 
       {showFeedBackItem && (
         <FeedBackItemPopup
           {...showFeedBackItem}
+          votes={votes.filter(
+            (v) => v.feedbackId.toString() === showFeedBackItem._id.toString()
+          )}
+          onVoteChange={fetchVotes}
           setShow={setShowFeedBackItem}
         />
       )}

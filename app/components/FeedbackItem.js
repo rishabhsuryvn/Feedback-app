@@ -40,6 +40,7 @@ export default function FeedBackItem({
     await signIn("google");
   }
 
+  const ivoted = !!votes.find((v) => v.userEmail === session?.user?.email);
   return (
     <a
       href=""
@@ -68,25 +69,24 @@ export default function FeedBackItem({
           </Popup>
         )}
 
-        {!parentLoadingVotes && (
-          <button
-            onClick={handleVoteButton}
-            className="shadow-sm shadow-gray-200 border rounded-md py-1 px-4 flex items-center gap-1 text-gray-600"
-          >
-            {!isVotesLoading && (
-              <>
-                <span className="triangle-vote-up"></span>
-                {votes?.length || "0"}
-              </>
-            )}
+        <Button
+          primary={ivoted}
+          onClick={handleVoteButton}
+          className="shadow-sm border"
+        >
+          {!isVotesLoading && (
+            <>
+              <span className="triangle-vote-up"></span>
+              {votes?.length || "0"}
+            </>
+          )}
 
-            {isVotesLoading && (
-              <>
-                <MoonLoader size={18} />
-              </>
-            )}
-          </button>
-        )}
+          {isVotesLoading && (
+            <>
+              <MoonLoader size={18} />
+            </>
+          )}
+        </Button>
       </div>
     </a>
   );

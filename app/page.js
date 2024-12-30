@@ -86,7 +86,7 @@ export default function Home() {
       <div className="bg-gray-100 px-8 py-2 flex border-b">
         <div className="grow"></div>
         <div>
-          <Button primary="true" onClick={openFeedBackPopup}>
+          <Button variant="primary" onClick={openFeedBackPopup}>
             Make a suggestion{" "}
           </Button>
         </div>

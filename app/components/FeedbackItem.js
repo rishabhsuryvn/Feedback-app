@@ -62,7 +62,7 @@ export default function FeedBackItem({
             setShow={setShowLoginPopup}
           >
             <div className="p-4">
-              <Button primary onClick={handleGoogleLogin}>
+              <Button variant="primary" onClick={handleGoogleLogin}>
                 Login
               </Button>
             </div>
@@ -70,7 +70,7 @@ export default function FeedBackItem({
         )}
 
         <Button
-          primary={ivoted}
+          variant={ivoted ? "primary" : ""}
           onClick={handleVoteButton}
           className="shadow-sm border"
         >

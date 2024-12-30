@@ -39,15 +39,15 @@ export default function FeedBackItemPopup({
           <div className="mt-4">
             <span className="text-sm text-gray-600">Attachments:</span>
             <div className="flex gap-2">
-              {uploads.map((link) => (
-                <Attachments link={link} />
+              {uploads.map((link, index) => (
+                <Attachments link={link} key={index} />
               ))}
             </div>
           </div>
         )}
       </div>
       <div className="flex justify-end  border-b px-8 py-2">
-        <Button onClick={handleVoteButton} primary="true">
+        <Button onClick={handleVoteButton} variant="primary">
           {votesLoading && <MoonLoader size={18} />}
           {!votesLoading && (
             <>

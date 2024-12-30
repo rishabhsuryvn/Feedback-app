@@ -30,7 +30,7 @@ export default function Header() {
       {!isLoggedIn && (
         <>
           <Button
-            primary={true}
+            variant="primary"
             className="shadow-sm px-2 py-0"
             onClick={login}
           >

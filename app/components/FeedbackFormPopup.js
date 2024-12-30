@@ -34,7 +34,6 @@ export default function FeedbackFormPopup({ setShow, onCreate }) {
       data.append("file", file);
     }
     const res = await axios.post("/api/upload", data);
-    // console.log(res.data);
 
     setUploads((existingUpload) => {
       return [...existingUpload, ...res.data.links];
@@ -93,7 +92,7 @@ export default function FeedbackFormPopup({ setShow, onCreate }) {
         <div className="flex gap-2 mt-2 justify-end">
           <AttachFileButton />
 
-          <Button type="button" onClick={handleCreatePost} primary="true">
+          <Button type="button" onClick={handleCreatePost} variant="primary">
             Create Post
           </Button>
         </div>

@@ -6,8 +6,7 @@ import Logout from "./icons/Logout";
 import Login from "./icons/Login";
 
 export default function Header() {
-  const { data: session } = useSession();
-  const isLoggedIn = !!session?.user?.email;
+  const { data: session, status } = useSession();
 
   function logout() {
     signOut();
@@ -17,7 +16,7 @@ export default function Header() {
   }
   return (
     <div className="max-w-2xl mx-auto flex justify-end p-1">
-      {isLoggedIn && (
+      {status === "authenticated" && (
         <>
           <Button
             className="bg-white border border-red-200 shadow-sm px-1 py-0"
@@ -27,7 +26,7 @@ export default function Header() {
           </Button>
         </>
       )}
-      {!isLoggedIn && (
+      {status === "unauthenticated" && (
         <>
           <Button
             variant="primary"

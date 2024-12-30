@@ -7,17 +7,20 @@ import FeedBackItemPopup from "./components/FeedBackItemPopup";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import Header from "./components/Header";
+import { FadeLoader } from "react-spinners";
 
 export default function Home() {
   const [showFeedBackPopup, setShowFeedBackPopup] = useState(false);
   const [showFeedBackItem, setShowFeedBackItem] = useState(null);
   const [feedbacks, setFeedbacks] = useState([]);
+  const [feedbacksLoading, setFeedbacksLoading] = useState(true);
   const [votesLoading, setVotesLoading] = useState(false);
   const [votes, setVotes] = useState([]);
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     fetchFeedback();
+    setFeedbacksLoading(false);
   }, []);
 
   useEffect(() => {
@@ -68,14 +71,10 @@ export default function Home() {
       <Header />
       <div className="bg-gradient-to-r from-cyan-400 to-blue-400 p-8">
         <h1 className="font-bold text-xl">
-          {isLoggedIn && (
-            <>
-              <span>Hello, {session?.user?.name}</span>
-            </>
-          )}
+          {isLoggedIn && <span>Hello, {session?.user?.name}</span>}
           {!isLoggedIn && (
             <>
-              <span>Hello, Guest</span>
+              <span>Hello, {status === "loading" ? "..." : "Guest"}</span>
             </>
           )}
         </h1>
@@ -92,6 +91,12 @@ export default function Home() {
         </div>
       </div>
       <div className="px-8">
+        {feedbacksLoading && (
+          <div className="flex flex-col items-center my-8">
+            <FadeLoader size={40} loading={true} />
+            <p>Loading...</p>
+          </div>
+        )}
         {feedbacks.map((feedback, index) => (
           <FeedBackItem
             {...feedback}

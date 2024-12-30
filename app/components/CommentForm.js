@@ -14,7 +14,7 @@ export default function CommentForm() {
       <div className="flex justify-end gap-2 mt-2">
         <Button>Attach Files</Button>
         <Button variant="primary" disabled={commentText === ""}>
-          Commen
+          Comment
         </Button>
       </div>
     </form>

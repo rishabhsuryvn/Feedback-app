@@ -17,7 +17,7 @@ export default function Header() {
   return (
     <div className="max-w-2xl mx-auto flex justify-between items-center py-4 px-8">
       <div className="flex gap-4 items-center">
-        <span className="font-bold text-3xl">feedio</span>
+        <span className="font-bold text-3xl">feedios</span>
       </div>
       {status === "authenticated" && (
         <>

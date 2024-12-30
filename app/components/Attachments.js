@@ -23,10 +23,10 @@ export default function Attachments({
       {link.endsWith(".jpg") || link.endsWith(".png") ? (
         <Image
           src={link}
-          className="rounded-md w-auto"
-          alt="attachment"
+          className="rounded-md object-cover w-auto h-16"
           width={48}
           height={48}
+          alt="attachment"
         />
       ) : (
         <div className="bg-gray-200 h-16 p-2 flex items-center rounded-md">

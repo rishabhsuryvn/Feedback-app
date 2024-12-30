@@ -86,7 +86,10 @@ export default function FeedbackFormPopup({ setShow, onCreate }) {
           </div>
         )}
         <div className="flex gap-2 mt-2 justify-end">
-          <AttachFileButton />
+          <AttachFileButton
+            isUploading={isUploading}
+            onInputChange={handleAttachFileInput}
+          />
 
           <Button type="button" onClick={handleCreatePost} variant="primary">
             Create Post

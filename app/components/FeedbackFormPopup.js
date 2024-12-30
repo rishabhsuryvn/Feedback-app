@@ -7,6 +7,7 @@ import Trash from "./icons/Trash";
 import { set } from "mongoose";
 import { MoonLoader } from "react-spinners";
 import Attachments from "./Attachments";
+import AttachFileButton from "./AttachFileButton";
 export default function FeedbackFormPopup({ setShow, onCreate }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -90,19 +91,7 @@ export default function FeedbackFormPopup({ setShow, onCreate }) {
           </div>
         )}
         <div className="flex gap-2 mt-2 justify-end">
-          <label className={"flex gap-2 py-2 px-4  cursor-pointer"}>
-            {isUploading && <MoonLoader size={18} />}
-
-            <span className={isUploading ? "text-gray-200" : "text-gray-600"}>
-              {isUploading ? "Uploading..." : "Attach Files"}
-            </span>
-            <input
-              multiple
-              onChange={handleAttachFileInput}
-              type="file"
-              className="hidden"
-            />
-          </label>
+          <AttachFileButton />
 
           <Button type="button" onClick={handleCreatePost} primary="true">
             Create Post

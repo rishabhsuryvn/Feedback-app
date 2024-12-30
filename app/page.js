@@ -6,6 +6,7 @@ import Button from "./components/Button";
 import FeedBackItemPopup from "./components/FeedBackItemPopup";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import Header from "./components/Header";
 
 export default function Home() {
   const [showFeedBackPopup, setShowFeedBackPopup] = useState(false);
@@ -61,13 +62,25 @@ export default function Home() {
     setShowFeedBackItem(feedback);
   }
 
+  const isLoggedIn = !!session?.user?.email;
   return (
     <main className="bg-white md:max-w-2xl mx-auto md:shadow-lg md:rounded-lg md:mt-8 overflow-hidden">
-      {session?.user?.email || "Not logged in"}
+      <Header />
       <div className="bg-gradient-to-r from-cyan-400 to-blue-400 p-8">
-        <h1 className="font-bold text-xl">Rishabh</h1>
+        <h1 className="font-bold text-xl">
+          {isLoggedIn && (
+            <>
+              <span>Hello, {session?.user?.name}</span>
+            </>
+          )}
+          {!isLoggedIn && (
+            <>
+              <span>Hello, Guest</span>
+            </>
+          )}
+        </h1>
         <p className="text-opacity-90 text-slate-700">
-          help me to decide what can I build next or how can I improve
+          Share Your Thoughts with Us
         </p>
       </div>
       <div className="bg-gray-100 px-8 py-2 flex border-b">

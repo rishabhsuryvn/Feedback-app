@@ -78,7 +78,7 @@ export default function FeedbackFormPopup({ setShow, onCreate }) {
             <div className="flex gap-3">
               {uploads.map((link, index) => (
                 <Attachments
-                  index={index}
+                  key={index}
                   link={link}
                   showRemoveButton={true}
                   handleRemoveFileClick={(e, link) =>

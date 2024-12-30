@@ -9,7 +9,7 @@ export default function Button(props) {
         extraClasses +
         (props.variant === "primary"
           ? " bg-blue-500 text-white"
-          : " text-gray-600") +
+          : " text-gray-600 neu-box-inset") +
         (props.disabled
           ? " text-opacity-70 bg-opacity-70 cursor-not-allowed"
           : " ")

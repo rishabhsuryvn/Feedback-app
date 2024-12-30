@@ -67,7 +67,7 @@ export default function Home() {
 
   const isLoggedIn = !!session?.user?.email;
   return (
-    <main className="bg-white md:max-w-2xl mx-auto md:shadow-lg md:rounded-lg md:mt-8 overflow-hidden">
+    <main className="neu-box md:max-w-2xl mx-auto md:shadow-lg md:rounded-lg md:mt-8 overflow-hidden relative">
       <Header />
       <div className="bg-gradient-to-r from-cyan-400 to-blue-400 p-8">
         <h1 className="font-bold text-xl">
@@ -78,19 +78,29 @@ export default function Home() {
             </>
           )}
         </h1>
-        <p className="text-opacity-90 text-slate-700">
+        <p className="text-opacity-90 text-slate-700 mb-8">
           Share Your Thoughts with Us
         </p>
+        <Button variant="primary" onClick={openFeedBackPopup}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+            />
+          </svg>
+          Post
+        </Button>
       </div>
-      <div className="bg-gray-100 px-8 py-2 flex border-b">
-        <div className="grow"></div>
-        <div>
-          <Button variant="primary" onClick={openFeedBackPopup}>
-            Make a suggestion{" "}
-          </Button>
-        </div>
-      </div>
-      <div className="px-8">
+
+      <div className="px-8 overflow-scroll">
         {feedbacksLoading && (
           <div className="flex flex-col items-center my-8">
             <FadeLoader size={40} loading={true} />

@@ -50,7 +50,7 @@ export default function FeedBackItem({
       }}
       className="my-8 flex gap-8 items-center"
     >
-      <div className="flex-grow">
+      <div className="flex-grow neu-box-inset p-2">
         <h2 className="font-bold">{title}</h2>
         <p className="text-gray-600 text-sm">{description}</p>
       </div>
@@ -72,7 +72,7 @@ export default function FeedBackItem({
         <Button
           variant={ivoted ? "primary" : ""}
           onClick={handleVoteButton}
-          className="shadow-sm border"
+          className=""
         >
           {!isVotesLoading && (
             <>

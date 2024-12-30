@@ -15,14 +15,14 @@ export default function Header() {
     signIn("google");
   }
   return (
-    <div className="max-w-2xl mx-auto flex justify-end p-1">
+    <div className="max-w-2xl mx-auto flex justify-between items-center py-4 px-8">
+      <div className="flex gap-4 items-center">
+        <span className="font-bold text-3xl">feedio</span>
+      </div>
       {status === "authenticated" && (
         <>
-          <Button
-            className="bg-white border border-red-200 shadow-sm px-1 py-0"
-            onClick={logout}
-          >
-            Logout <Logout />
+          <Button className="neu-box-inset p-1" onClick={logout}>
+            <Logout />
           </Button>
         </>
       )}
@@ -33,7 +33,7 @@ export default function Header() {
             className="shadow-sm px-2 py-0"
             onClick={login}
           >
-            Login <Login />
+            <Login />
           </Button>
         </>
       )}

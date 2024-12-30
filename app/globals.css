@@ -2,11 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-  @apply bg-slate-100;
+body {
+  background: #e0e0e0;
 }
 
-.triangle-vote-up{
+.triangle-vote-up {
   width: 0px;
   height: 0px;
   border-style: solid;
@@ -15,6 +15,17 @@ body{
   transform: rotate(0deg);
 }
 
-.text-white > .triangle-vote-up{
+.text-white > .triangle-vote-up {
   border-color: transparent transparent #fff transparent;
+}
+
+.neu-box {
+  border-radius: 10px;
+  background: linear-gradient(145deg, #cacaca, #f0f0f0);
+  box-shadow: 20px 20px 60px #949494, -20px -20px 60px #ffffff;
+}
+.neu-box-inset {
+  border-radius: 10px;
+  background: #e0e0e0;
+  box-shadow: inset 12px 12px 24px #d9d9d9, inset -12px -12px 24px #e7e7e7;
 }

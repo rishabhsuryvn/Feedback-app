@@ -2,10 +2,6 @@ import Popup from "./Popup";
 import Button from "./Button";
 import { useState } from "react";
 import axios from "axios";
-import PaperClip from "./icons/PaperClip";
-import Trash from "./icons/Trash";
-import { set } from "mongoose";
-import { MoonLoader } from "react-spinners";
 import Attachments from "./Attachments";
 import AttachFileButton from "./AttachFileButton";
 export default function FeedbackFormPopup({ setShow, onCreate }) {

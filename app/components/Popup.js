@@ -33,7 +33,7 @@ export default function Popup({ setShow, children, title, narrow }) {
           onClick={(e) => e.stopPropagation()}
           className={
             (narrow ? " md:max-w-sm" : " md:max-w-2xl") +
-            " md:mx-auto bg-white  md:rounded-lg overflow-hidden"
+            " md:mx-auto neu-box-inset md:rounded-lg overflow-hidden"
           }
         >
           <div className="relative min-h-[40px] md:min-h-0">

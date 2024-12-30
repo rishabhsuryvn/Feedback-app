@@ -48,11 +48,13 @@ export default function FeedBackItem({
         e.preventDefault();
         onOpen();
       }}
-      className="my-8 flex gap-8 items-center"
+      className="my-8 flex gap-8 items-start"
     >
       <div className="flex-grow neu-box-inset p-2">
         <h2 className="font-bold">{title}</h2>
-        <p className="text-gray-600 text-sm">{description}</p>
+        <p className="text-gray-600 text-sm max-h-[200px] overflow-scroll">
+          {description}
+        </p>
       </div>
       <div>
         {showLoginPopup && (

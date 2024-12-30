@@ -4,7 +4,9 @@ const feedbackSchema = new Schema(
   {
     title: { type: String, required: true },
     description: { type: String, required: true },
+    email: { type: String, required: true },
     uploads: { type: [String] },
+
     // ip: { type: String, required: true },
   },
   { timestamps: true }

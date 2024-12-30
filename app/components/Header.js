@@ -4,7 +4,8 @@ import React from "react";
 import Button from "./Button";
 import Logout from "./icons/Logout";
 import Login from "./icons/Login";
-
+import { Carter_One } from "next/font/google";
+const carter_one = Carter_One({ weight: ["400"], subsets: ["latin"] });
 export default function Header() {
   const { data: session, status } = useSession();
 
@@ -17,7 +18,11 @@ export default function Header() {
   return (
     <div className="max-w-2xl mx-auto flex justify-between items-center py-4 px-8">
       <div className="flex gap-4 items-center">
-        <span className="font-bold text-3xl">feedios</span>
+        <span
+          className={`font-bold text-5xl text-sky-400 ${carter_one.className}`}
+        >
+          Feedios
+        </span>
       </div>
       {status === "authenticated" && (
         <>

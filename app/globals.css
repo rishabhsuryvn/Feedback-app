@@ -21,11 +21,16 @@ body {
 
 .neu-box {
   border-radius: 10px;
-  background: linear-gradient(145deg, #cacaca, #f0f0f0);
-  box-shadow: 20px 20px 60px #949494, -20px -20px 60px #ffffff;
+  background: #e0e0e0;
+  box-shadow:  20px 20px 60px #bebebe,
+  -20px -20px 60px #ffffff;;
 }
 .neu-box-inset {
   border-radius: 10px;
   background: #e0e0e0;
-  box-shadow: inset 12px 12px 24px #d9d9d9, inset -12px -12px 24px #e7e7e7;
+  box-shadow: inset 20px 20px 60px #cecece,
+  inset -20px -20px 60px #f2f2f2;
+}
+p{
+  @apply leading-4
 }

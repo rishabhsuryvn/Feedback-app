@@ -8,8 +8,11 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import Header from "./components/Header";
 import { FadeLoader } from "react-spinners";
+import Popup from "./components/Popup";
+import { signIn } from "next-auth/react";
 
 export default function Home() {
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
   const [showFeedBackPopup, setShowFeedBackPopup] = useState(false);
   const [showFeedBackItem, setShowFeedBackItem] = useState(null);
   const [feedbacks, setFeedbacks] = useState([]);
@@ -50,6 +53,11 @@ export default function Home() {
         alert("Failed to fetch feedbacks. Please try again later.");
       });
   }
+  async function handleGoogleLogin(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    await signIn("google");
+  }
   async function fetchVotes() {
     setVotesLoading(true);
     const ids = feedbacks.map((f) => f._id);
@@ -58,6 +66,10 @@ export default function Home() {
     setVotesLoading(false);
   }
   function openFeedBackPopup() {
+    if (!isLoggedIn) {
+      setShowLoginPopup(true);
+      return;
+    }
     setShowFeedBackPopup(true);
   }
 
@@ -69,7 +81,16 @@ export default function Home() {
   return (
     <main className="neu-box md:max-w-2xl mx-auto md:shadow-lg md:rounded-lg md:mt-8 overflow-hidden relative">
       <Header />
-      <div className="bg-gradient-to-r from-cyan-400 to-blue-400 p-8">
+      {showLoginPopup && (
+        <Popup title={"Login to post"} narrow setShow={setShowLoginPopup}>
+          <div className="p-4">
+            <Button variant="primary" onClick={handleGoogleLogin}>
+              Login
+            </Button>
+          </div>
+        </Popup>
+      )}
+      <div className="bg-gradient-to-r h-40 from-sky-400 to-blue-400 p-8">
         <h1 className="font-bold text-xl">
           {isLoggedIn && <span>Hello, {session?.user?.name}</span>}
           {!isLoggedIn && (
@@ -81,7 +102,11 @@ export default function Home() {
         <p className="text-opacity-90 text-slate-700 mb-8">
           Share Your Thoughts with Us
         </p>
-        <Button variant="primary" onClick={openFeedBackPopup}>
+        <Button
+          variant="primary"
+          className="hover:border hover:border-sky-200"
+          onClick={openFeedBackPopup}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

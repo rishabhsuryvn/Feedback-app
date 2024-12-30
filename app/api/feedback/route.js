@@ -4,10 +4,15 @@ import mongoose from "mongoose";
 
 export async function POST(req) {
   const JsonBody = await req.json();
-  const { title, description, uploads } = JsonBody;
+  const { title, description, email, uploads } = JsonBody;
   await ConnectMongo();
 
-  const feedback = await Feedback.create({ title, description, uploads });
+  const feedback = await Feedback.create({
+    title,
+    description,
+    email,
+    uploads,
+  });
 
   return new Response(JSON.stringify(feedback), { status: 201 });
 }

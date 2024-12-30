@@ -4,22 +4,26 @@ import { useState } from "react";
 import axios from "axios";
 import Attachments from "./Attachments";
 import AttachFileButton from "./AttachFileButton";
+import { useSession } from "next-auth/react";
 export default function FeedbackFormPopup({ setShow, onCreate }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [uploads, setUploads] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
-
+  const { data: session } = useSession();
+  const email = session?.user?.email;
   function handleCreatePost(e) {
     e.preventDefault();
     if (!title || !description) {
       console.log("Title and description cannot be empty");
       return;
     }
-    axios.post("/api/feedback", { title, description, uploads }).then((res) => {
-      setShow(false);
-      onCreate();
-    });
+    axios
+      .post("/api/feedback", { title, description, email, uploads })
+      .then((res) => {
+        setShow(false);
+        onCreate();
+      });
   }
 
   async function handleAttachFileInput(e) {

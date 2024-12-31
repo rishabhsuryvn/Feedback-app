@@ -6,6 +6,7 @@ const feedbackSchema = new Schema(
     description: { type: String, required: true },
     email: { type: String, required: true },
     uploads: { type: [String] },
+    voteCounted: { type: Number, default: 0 },
 
     // ip: { type: String, required: true },
   },

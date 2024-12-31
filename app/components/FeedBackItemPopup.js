@@ -34,7 +34,9 @@ export default function FeedBackItemPopup({
     <Popup title={""} setShow={setShow}>
       <div className="p-8 pb-2 ">
         <h2 className="text-lg font-bold mb-2"> {title}</h2>
-        <p className="text-gray-600">{description}</p>
+        <p className="text-gray-600 max-h-96 text-justify overflow-y-scroll">
+          {description}
+        </p>
         {uploads.length > 0 && (
           <div className="mt-4">
             <span className="text-sm text-gray-600">Attachments:</span>

@@ -52,7 +52,7 @@ export default function FeedBackItem({
     >
       <div className="flex-grow neu-box-inset p-2">
         <h2 className="font-bold">{title}</h2>
-        <p className="text-gray-600 text-sm max-h-[200px] overflow-scroll">
+        <p className="text-gray-600 text-sm max-h-[200px] overflow-scroll text-justify">
           {description}
         </p>
       </div>

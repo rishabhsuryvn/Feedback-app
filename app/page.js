@@ -18,13 +18,20 @@ export default function Home() {
   const [feedbacks, setFeedbacks] = useState([]);
   const [feedbacksLoading, setFeedbacksLoading] = useState(true);
   const [votesLoading, setVotesLoading] = useState(false);
+  const [lastId, setLastId] = useState("");
   const [votes, setVotes] = useState([]);
+  const [sorts, setSorts] = useState("votes");
   const { data: session, status } = useSession();
-
+  const [pageNo, setPageNo] = useState(1);
+  const [isEnd, setIsEnd] = useState(false);
   useEffect(() => {
     fetchFeedback();
     setFeedbacksLoading(false);
   }, []);
+
+  useEffect(() => {
+    fetchFeedback();
+  }, [sorts, pageNo]);
 
   useEffect(() => {
     fetchVotes();
@@ -44,9 +51,12 @@ export default function Home() {
 
   async function fetchFeedback() {
     axios
-      .get("/api/feedback")
+      .get(`/api/feedback?sort=${sorts}&lastId=${lastId}&pageNo=${pageNo}`)
       .then((res) => {
-        setFeedbacks(res.data);
+        const { feedbacksData, hasMore } = res.data;
+        setFeedbacks(feedbacksData);
+        setLastId(feedbacksData[feedbacksData.length - 1]._id);
+        setIsEnd(!hasMore);
       })
       .catch((err) => {
         console.error("Error fetching feedbacks:", err);
@@ -124,7 +134,55 @@ export default function Home() {
           Post
         </Button>
       </div>
+      <div className="px-8 mt-4 flex justify-between">
+        <div className="flex gap-2 items-center neu-box px-4 ">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z"
+            />
+          </svg>
 
+          <select
+            value={sorts}
+            onChange={(e) => setSorts(e.target.value)}
+            className="bg-transparent appearance-none text-gray-600 py-2"
+          >
+            <option value="votes">Most voted</option>
+            <option value="latest">Latest</option>
+            <option value="oldest">Oldest</option>
+          </select>
+        </div>
+        <div className="flex gap-2 items-center neu-box pr-4">
+          <input
+            type="search"
+            placeholder="Search..."
+            className="bg-transparent appearance-none px-2 pl-4 rounded-md text-gray-600 py-2"
+          />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+            />
+          </svg>
+        </div>
+      </div>
       <div className="px-8 overflow-scroll">
         {feedbacksLoading && (
           <div className="flex flex-col items-center my-8">
@@ -151,7 +209,68 @@ export default function Home() {
           setShow={setShowFeedBackPopup}
         />
       )}
-
+      {isEnd && (
+        <div className="flex flex-col items-center my-8">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19.5 5.25l-7.5 7.5-7.5-7.5m15 6l-7.5 7.5-7.5-7.5"
+            />
+          </svg>
+          <p className="text-gray-600">No more feedbacks</p>
+        </div>
+      )}
+      <div className="flex flex-grow items-center justify-center my-4">
+        <button
+          className="text-gray-600 disabled:text-gray-400"
+          onClick={() => setPageNo(pageNo - 1)}
+          disabled={pageNo === 1}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15.75 19.5 8.25 12l7.5-7.5"
+            />
+          </svg>
+        </button>
+        <span className="text-gray-600 mx-4">{pageNo}</span>
+        <button
+          className="text-gray-600 disabled:text-gray-400"
+          onClick={() => setPageNo(pageNo + 1)}
+          disabled={isEnd}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="m8.25 4.5 7.5 7.5-7.5 7.5"
+            />
+          </svg>
+        </button>
+      </div>
       {showFeedBackItem && (
         <FeedBackItemPopup
           {...showFeedBackItem}

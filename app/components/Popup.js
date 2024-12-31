@@ -28,12 +28,12 @@ export default function Popup({ setShow, children, title, narrow }) {
           />
         </svg>
       </button>
-      <div className="w-full">
+      <div className="w-full h-full overflow-y-scroll">
         <div
           onClick={(e) => e.stopPropagation()}
           className={
             (narrow ? " md:max-w-sm" : " md:max-w-2xl") +
-            " md:mx-auto neu-box-inset md:rounded-lg overflow-hidden"
+            " md:mx-auto md:my-8 neu-box-inset md:rounded-lg overflow-hidden"
           }
         >
           <div className="relative min-h-[40px] md:min-h-0">

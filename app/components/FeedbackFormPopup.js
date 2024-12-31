@@ -9,7 +9,6 @@ export default function FeedbackFormPopup({ setShow, onCreate }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [uploads, setUploads] = useState([]);
-  const [isUploading, setIsUploading] = useState(false);
   const { data: session } = useSession();
   const email = session?.user?.email;
   function handleCreatePost(e) {
@@ -26,21 +25,6 @@ export default function FeedbackFormPopup({ setShow, onCreate }) {
       });
   }
 
-  async function handleAttachFileInput(e) {
-    const files = [...e.target.files];
-    setIsUploading(true);
-    const data = new FormData();
-    for (const file of files) {
-      data.append("file", file);
-    }
-    const res = await axios.post("/api/upload", data);
-
-    setUploads((existingUpload) => {
-      return [...existingUpload, ...res.data.links];
-    });
-    setIsUploading(false);
-  }
-
   async function handleRemoveFileClick(e, link) {
     e.preventDefault();
     setUploads((currUpload) => {
@@ -53,6 +37,13 @@ export default function FeedbackFormPopup({ setShow, onCreate }) {
       .then((res) => {
         console.log(res);
       });
+  }
+
+  function addNewUploads(newLink) {
+    setUploads((prevLinks) => [
+      ...prevLinks,
+      ...(Array.isArray(newLink) ? newLink : [newLink]),
+    ]);
   }
   return (
     <Popup setShow={setShow} title={"Make a suggestion"}>
@@ -90,10 +81,7 @@ export default function FeedbackFormPopup({ setShow, onCreate }) {
           </div>
         )}
         <div className="flex gap-2 mt-2 justify-end">
-          <AttachFileButton
-            isUploading={isUploading}
-            onInputChange={handleAttachFileInput}
-          />
+          <AttachFileButton onNewFiles={addNewUploads} />
 
           <Button type="button" onClick={handleCreatePost} variant="primary">
             Create Post

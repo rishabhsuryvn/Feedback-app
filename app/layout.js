@@ -2,7 +2,6 @@
 import { Nunito_Sans } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
-import Header from "./components/Header";
 
 const nuninto_sans = Nunito_Sans({ subsets: ["latin"] });
 

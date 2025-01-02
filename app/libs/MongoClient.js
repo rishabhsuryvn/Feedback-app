@@ -26,12 +26,4 @@ if (process.env.NODE_ENV === "development") {
   client = new MongoClient(uri, options);
 }
 
-// Setting the database dynamically
-const getDb = () => {
-  const dbName =
-    process.env.NODE_ENV === "development" ? "test" : process.env.DB_NAME;
-  return client.db(dbName);
-};
-
 export default client;
-export { getDb };

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import FeedBackItem from "./components/FeedbackItem";
 import FeedbackFormPopup from "./components/FeedbackFormPopup";
 import Button from "./components/Button";
@@ -24,14 +24,18 @@ export default function Home() {
   const { data: session, status } = useSession();
   const [pageNo, setPageNo] = useState(1);
   const [isEnd, setIsEnd] = useState(false);
+  const [searchPhrase, setSearchPhrase] = useState("");
+  const searchRef = useRef("");
+
   useEffect(() => {
     fetchFeedback();
     setFeedbacksLoading(false);
   }, []);
 
   useEffect(() => {
+    searchRef.current = searchPhrase;
     fetchFeedback();
-  }, [sorts, pageNo]);
+  }, [sorts, pageNo, searchPhrase]);
 
   useEffect(() => {
     fetchVotes();
@@ -51,11 +55,13 @@ export default function Home() {
 
   async function fetchFeedback() {
     axios
-      .get(`/api/feedback?sort=${sorts}&lastId=${lastId}&pageNo=${pageNo}`)
+      .get(
+        `/api/feedback?sort=${sorts}&lastId=${lastId}&pageNo=${pageNo}&search=${searchRef.current}`
+      )
       .then((res) => {
         const { feedbacksData, hasMore } = res.data;
         setFeedbacks(feedbacksData);
-        setLastId(feedbacksData[feedbacksData.length - 1]._id);
+        // setLastId(feedbacksData[feedbacksData.length - 1]._id);
         setIsEnd(!hasMore);
       })
       .catch((err) => {
@@ -166,6 +172,8 @@ export default function Home() {
             type="search"
             placeholder="Search..."
             className="bg-transparent appearance-none px-2 pl-4 rounded-md text-gray-600 py-2"
+            value={searchPhrase}
+            onChange={(e) => setSearchPhrase(e.target.value)}
           />
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -188,6 +196,25 @@ export default function Home() {
           <div className="flex flex-col items-center my-8">
             <FadeLoader size={40} loading={true} />
             <p>Loading...</p>
+          </div>
+        )}
+        {!feedbacksLoading && feedbacks.length === 0 && (
+          <div className="flex flex-col items-center my-8">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856C18.988 19 20 17.988 20 16.662V7.338C20 6.012 18.988 5 17.662 5H6.338C5.012 5 4 6.012 4 7.338v9.324C4 17.988 5.012 19 6.338 19z"
+              />
+            </svg>
+            <p className="text-gray-600">No search results found</p>
           </div>
         )}
         {feedbacks.map((feedback, index) => (

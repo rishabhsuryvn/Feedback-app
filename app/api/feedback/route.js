@@ -23,6 +23,8 @@ export async function GET(req) {
   const sortParam = url.searchParams.get("sort");
   const lastId = url.searchParams.get("lastId");
   const pageNo = url.searchParams.get("pageNo");
+  const searchPhrase = url.searchParams.get("search");
+
   const limit = 3;
   let sort;
   if (sortParam === "latest") {
@@ -35,7 +37,16 @@ export async function GET(req) {
     sort = { voteCounted: -1 };
   }
 
-  const feedbacksData = await Feedback.find()
+  const searchQuery = searchPhrase
+    ? {
+        $or: [
+          { title: { $regex: searchPhrase, $options: "i" } },
+          { description: { $regex: searchPhrase, $options: "i" } },
+        ],
+      }
+    : {};
+
+  const feedbacksData = await Feedback.find(searchQuery)
     .sort(sort)
     .limit(limit + 1)
     .skip(limit * (pageNo - 1));

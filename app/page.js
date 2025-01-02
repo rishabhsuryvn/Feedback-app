@@ -28,13 +28,18 @@ export default function Home() {
   const searchRef = useRef("");
 
   useEffect(() => {
+    setFeedbacksLoading(true);
     fetchFeedback();
     setFeedbacksLoading(false);
   }, []);
 
   useEffect(() => {
+    setFeedbacksLoading(true);
     searchRef.current = searchPhrase;
-    fetchFeedback();
+    if (searchPhrase !== "") {
+      fetchFeedback();
+    }
+    setFeedbacksLoading(false);
   }, [sorts, pageNo, searchPhrase]);
 
   useEffect(() => {
@@ -198,7 +203,7 @@ export default function Home() {
             <p>Loading...</p>
           </div>
         )}
-        {!feedbacksLoading && feedbacks.length === 0 && (
+        {!feedbacksLoading && searchPhrase && feedbacks.length === 0 && (
           <div className="flex flex-col items-center my-8">
             <svg
               xmlns="http://www.w3.org/2000/svg"

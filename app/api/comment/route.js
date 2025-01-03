@@ -2,7 +2,6 @@ import ConnectMongo from "@/app/utils/ConnectMongo";
 import { getServerSession } from "next-auth";
 import { authOption } from "../auth/[...nextauth]/route";
 import { Comment } from "@/app/models/Comment";
-import mongoose from "mongoose";
 
 export async function POST(req) {
   await ConnectMongo();

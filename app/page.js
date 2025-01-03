@@ -35,10 +35,9 @@ export default function Home() {
 
   useEffect(() => {
     setFeedbacksLoading(true);
+    setFeedbacksLoading(true);
     searchRef.current = searchPhrase;
-    if (searchPhrase !== "") {
-      fetchFeedback();
-    }
+    fetchFeedback();
     setFeedbacksLoading(false);
   }, [sorts, pageNo, searchPhrase]);
 

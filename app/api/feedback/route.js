@@ -1,6 +1,5 @@
 import Feedback from "@/app/models/feedback";
 import ConnectMongo from "@/app/utils/ConnectMongo";
-import mongoose from "mongoose";
 
 export async function POST(req) {
   const JsonBody = await req.json();
